@@ -1,8 +1,10 @@
 package com.sep6.backend.controllers;
 
+import com.sep6.backend.model.User;
 import com.sep6.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +19,7 @@ public class UserController {
         this.userService = userService;
     }
     @PostMapping( "/login")
-    public String login(){
-        return "user";
+    public User login(@RequestBody User user){
+        return userService.login(user);
     }
 }
