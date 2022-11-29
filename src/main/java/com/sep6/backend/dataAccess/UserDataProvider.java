@@ -25,7 +25,7 @@ public class UserDataProvider {
             connection = DriverManager.getConnection(url, username, password);
 
             PreparedStatement readStatement = connection.prepareStatement("SELECT * FROM dbo.users WHERE email=\'" +
-                    user.getEmail() + "\'AND password=\'" + password+ "\';");
+                    user.getEmail() + "\'AND password=\'" + user.password() + "\';");
 
             ResultSet resultSet = readStatement.executeQuery();
             if (!resultSet.next()) {
