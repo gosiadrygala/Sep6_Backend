@@ -24,7 +24,13 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
-      - name: Build Docker
-        run: |
-          docker build .
-
+      - name: Login to ACR, build and push image
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+      - run: |
+          docker build -t ${{secrets.ACR_LOGIN_SERVER}}/sep6backend:0.0.1 \
+          --label backendversion=0.0.1 . 
+          docker push ${{secrets.ACR_LOGIN_SERVER}}/sep6backend:0.0.1
