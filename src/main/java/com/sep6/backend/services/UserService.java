@@ -18,5 +18,9 @@ public class UserService {
     public User login(User user) {
         return userDataProvider.login(user);
     }
+
+    public String register(User user) {
+        return userDataProvider.register(user);
+    }
 }
 

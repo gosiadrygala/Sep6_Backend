@@ -27,8 +27,8 @@ public class UserDataProvider {
         try {
             connection = DriverManager.getConnection(url, username, password);
 
-            PreparedStatement readStatement = connection.prepareStatement("SELECT * FROM dbo.users WHERE username=\'" +
-                    user.getUsername() + "\'AND password=\'" + user.getPassword() + "\';");
+            PreparedStatement readStatement = connection.prepareStatement("SELECT * FROM dbo.users WHERE username='" +
+                    user.getUsername() + "'AND password='" + user.getPassword() + "';");
 
             ResultSet resultSet = readStatement.executeQuery();
             if (!resultSet.next()) {
@@ -47,5 +47,41 @@ public class UserDataProvider {
             connection.close();
         }
         return new User();
+    }
+
+    @SneakyThrows
+    public String register(User user) {
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(url, username, password);
+
+            PreparedStatement readStatement = connection.prepareStatement("SELECT * FROM dbo.users WHERE username='" +
+                    user.getUsername() + "'OR email='" + user.getEmail() + "';");
+
+            ResultSet resultSet = readStatement.executeQuery();
+            if (!resultSet.next()) {
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO dbo.users (email, username, password)" +
+                        "VALUES ('" + user.getEmail() + "', '" + user.getUsername()
+                        + "','" + user.getPassword() + "');");
+                preparedStatement.executeUpdate();
+                return "Register successful";
+            }
+
+            boolean usernameExists = user.getUsername().equals(resultSet.getString("username"));
+            boolean emailExists = user.getEmail().equals(resultSet.getString("email"));
+
+            if(usernameExists && emailExists)
+                return "User already exists";
+            else if(usernameExists)
+                return "Username already exists";
+            else if(emailExists)
+                return "Email already exists";
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connection.close();
+        }
+        return "";
     }
 }
