@@ -3,7 +3,11 @@ package com.sep6.backend.dataAccess;
 import com.sep6.backend.model.User;
 import lombok.SneakyThrows;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class UserDataProvider {
 
@@ -17,15 +21,14 @@ public class UserDataProvider {
         this.password = password;
     }
 
-
     @SneakyThrows
     public User login(User user) {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url, username, password);
 
-            PreparedStatement readStatement = connection.prepareStatement("SELECT * FROM dbo.users WHERE email=\'" +
-                    user.getEmail() + "\'AND password=\'" + user.getPassword() + "\';");
+            PreparedStatement readStatement = connection.prepareStatement("SELECT * FROM dbo.users WHERE username=\'" +
+                    user.getUsername() + "\'AND password=\'" + user.getPassword() + "\';");
 
             ResultSet resultSet = readStatement.executeQuery();
             if (!resultSet.next()) {

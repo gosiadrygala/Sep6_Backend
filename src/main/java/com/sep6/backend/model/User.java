@@ -11,8 +11,8 @@ import lombok.NonNull;
 @NoArgsConstructor
 @Builder
 public class User {
-    @NonNull
     private String email;
+    @NonNull
     private String username;
     @NonNull
     private String password;
