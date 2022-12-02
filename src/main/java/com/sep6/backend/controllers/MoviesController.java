@@ -24,7 +24,7 @@ public class MoviesController {
         return moviesService.search(searchFilter);
     }
 
-    @PostMapping("/moviedata")
+    @GetMapping("/moviedata")
     public Movie getExtendedMovieData(@RequestParam String id){
         return moviesService.getExtendedMovieData(id);
     }
