@@ -24,21 +24,18 @@ public class SQLMoviesDataProvider implements MoviesDataProvider {
     }
 
     @SneakyThrows
-    public Map<Integer, String> search(String searchFilter) {
+    public Map<String,String> search(String searchFilter) {
         Connection connection = null;
-        Map<Integer, String> searchResult = new HashMap<>();
+        Map<String, String> searchResult = new HashMap<>();
         try {
             connection = DriverManager.getConnection(url, username, password);
 
             PreparedStatement readStatement = connection.prepareStatement("SELECT TOP 10 id, title FROM dbo.movies WHERE title LIKE '%" + searchFilter +"%';");
 
             ResultSet resultSet = readStatement.executeQuery();
-            if (!resultSet.next()) {
-                return searchResult;
-            }
 
             while(resultSet.next()){
-                searchResult.put(resultSet.getInt("id"), resultSet.getString("title"));
+                searchResult.put(String.valueOf(resultSet.getInt("id")), resultSet.getString("title"));
             }
 
             return searchResult;

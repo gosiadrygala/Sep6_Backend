@@ -16,7 +16,7 @@ public class MoviesService {
         this.moviesDataProvider = moviesDataProvider;
     }
 
-    public Map<Integer, String> search(String searchFilter) {
+    public Map<String, String> search(String searchFilter) {
         return moviesDataProvider.search(searchFilter);
     }
 }

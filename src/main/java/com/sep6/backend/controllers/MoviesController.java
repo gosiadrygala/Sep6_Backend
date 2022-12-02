@@ -21,7 +21,7 @@ public class MoviesController {
     }
 
     @GetMapping("/search")
-    public Map<Integer, String> search(@RequestBody String searchFilter){
+    public Map<String, String> search(@RequestBody String searchFilter){
         return moviesService.search(searchFilter);
     }
 
