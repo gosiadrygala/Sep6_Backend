@@ -1,6 +1,7 @@
 package com.sep6.backend.dataAccess;
 
 import com.sep6.backend.dataAccess.interfaces.MoviesDataProvider;
+import com.sep6.backend.model.SearchResponse;
 import lombok.SneakyThrows;
 
 import java.sql.Connection;
@@ -8,7 +9,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SQLMoviesDataProvider implements MoviesDataProvider {
@@ -24,9 +27,9 @@ public class SQLMoviesDataProvider implements MoviesDataProvider {
     }
 
     @SneakyThrows
-    public Map<String,String> search(String searchFilter) {
+    public List<SearchResponse> search(String searchFilter) {
         Connection connection = null;
-        Map<String, String> searchResult = new HashMap<>();
+        List<SearchResponse> searchResult = new ArrayList<>();
         try {
             connection = DriverManager.getConnection(url, username, password);
 
@@ -35,7 +38,7 @@ public class SQLMoviesDataProvider implements MoviesDataProvider {
             ResultSet resultSet = readStatement.executeQuery();
 
             while(resultSet.next()){
-                searchResult.put(String.valueOf(resultSet.getInt("id")), resultSet.getString("title"));
+                searchResult.add(new SearchResponse(resultSet.getInt("id"), resultSet.getString("title")));
             }
 
             return searchResult;

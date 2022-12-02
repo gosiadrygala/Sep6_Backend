@@ -1,7 +1,10 @@
 package com.sep6.backend.dataAccess.interfaces;
 
+import com.sep6.backend.model.SearchResponse;
+
+import java.util.List;
 import java.util.Map;
 
 public interface MoviesDataProvider {
-    Map<String, String> search(String searchFilter);
+    List<SearchResponse> search(String searchFilter);
 }
