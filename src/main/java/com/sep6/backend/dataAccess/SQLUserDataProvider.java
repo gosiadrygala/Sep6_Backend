@@ -1,5 +1,6 @@
 package com.sep6.backend.dataAccess;
 
+import com.sep6.backend.dataAccess.interfaces.UserDataProvider;
 import com.sep6.backend.model.User;
 import lombok.SneakyThrows;
 
@@ -9,13 +10,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDataProvider {
+public class SQLUserDataProvider implements UserDataProvider {
 
     private final String url;
     private final String username;
     private final String password;
 
-    public UserDataProvider(String url, String username, String password) {
+    public SQLUserDataProvider(String url, String username, String password) {
         this.url = url;
         this.username = username;
         this.password = password;
