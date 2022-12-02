@@ -30,7 +30,7 @@ public class SQLMoviesDataProvider implements MoviesDataProvider {
         try {
             connection = DriverManager.getConnection(url, username, password);
 
-            PreparedStatement readStatement = connection.prepareStatement("SELECT id, title FROM dbo.movies WHERE title LIKE '%" + searchFilter +"%';");
+            PreparedStatement readStatement = connection.prepareStatement("SELECT TOP 10 id, title FROM dbo.movies WHERE title LIKE '%" + searchFilter +"%';");
 
             ResultSet resultSet = readStatement.executeQuery();
             if (!resultSet.next()) {
