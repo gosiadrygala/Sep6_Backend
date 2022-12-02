@@ -1,5 +1,7 @@
 package com.sep6.backend.configuration;
 
+import com.sep6.backend.dataAccess.OMDBMovieDataProvider;
+import com.sep6.backend.dataAccess.interfaces.ExtendedMovieDataProvider;
 import com.sep6.backend.dataAccess.interfaces.MoviesDataProvider;
 import com.sep6.backend.dataAccess.SQLMoviesDataProvider;
 import com.sep6.backend.dataAccess.SQLUserDataProvider;
@@ -17,6 +19,8 @@ public class ApplicationConfig {
     private String databaseUser;
     @Value("${database.password}")
     private String databasePassword;
+    @Value("${omdb.apikey}")
+    private String apikey;
 
     @Bean
     public UserDataProvider getUserDataProvider(){
@@ -26,6 +30,11 @@ public class ApplicationConfig {
     @Bean
     public MoviesDataProvider getMoviesDataProvider(){
         return new SQLMoviesDataProvider(databaseUrl, databaseUser, databasePassword);
+    }
+
+    @Bean
+    public ExtendedMovieDataProvider getExtendedMovieDataProvider(){
+        return new OMDBMovieDataProvider(apikey);
     }
 
 }
