@@ -5,6 +5,5 @@ import com.sep6.backend.model.MovieShort;
 
 public interface ExtendedMovieDataProvider {
     Movie getExtendedMovieData(String id);
-
     MovieShort getShortenedMovieData(String valueOf);
 }

@@ -37,7 +37,7 @@ public class MoviesService {
         List<MovieShort> movies = new ArrayList<>();
         for (Integer id: ids) {
             MovieShort shortenedMovieData = extendedMovieDataProvider.getShortenedMovieData(String.valueOf(id));
-            if(!shortenedMovieData.getPoster().equals("N/A"))
+            if(!shortenedMovieData.getPoster().equals("N/A") && shortenedMovieData.getPoster() != null)
                 movies.add(shortenedMovieData);
         }
         return movies;
