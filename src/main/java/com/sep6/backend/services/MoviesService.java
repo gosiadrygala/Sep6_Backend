@@ -42,4 +42,24 @@ public class MoviesService {
         }
         return movies;
     }
+
+    public boolean favouriteMovie(String email, int movieID) {
+        return moviesDataProvider.favouriteMovie(email, movieID);
+    }
+
+    public boolean isFavouriteMovie(String email, int movieID) {
+        return moviesDataProvider.isFavouriteMovie(email, movieID);
+    }
+
+    public List<MovieShort> getFavouriteMovies(String email) {
+        List<Integer> ids = moviesDataProvider.getIDSFavouriteMovies(email);
+
+        List<MovieShort> movies = new ArrayList<>();
+        for (Integer id: ids) {
+            MovieShort shortenedMovieData = extendedMovieDataProvider.getShortenedMovieData(String.valueOf(id));
+            if(!shortenedMovieData.getPoster().equals("N/A") && shortenedMovieData.getPoster() != null)
+                movies.add(shortenedMovieData);
+        }
+        return movies;
+    }
 }

@@ -72,4 +72,89 @@ public class SQLMoviesDataProvider implements MoviesDataProvider {
         }
         return searchResult;
     }
+
+    @SneakyThrows
+    @Override
+    public boolean favouriteMovie(String email, int movieID) {
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(url, username, password);
+
+            PreparedStatement readStatement = connection.prepareStatement("SELECT * FROM dbo.favouriteMovies WHERE movieID='" +
+                    movieID + "'AND email='" + email + "';");
+
+            ResultSet resultSet = readStatement.executeQuery();
+            if (!resultSet.next()) {
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO dbo.favouriteMovies (movieID, email)" +
+                        "VALUES ('" + movieID + "', '" + email
+                        + "');");
+                preparedStatement.executeUpdate();
+                return true;
+            }
+            else{
+                PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM dbo.favouriteMovies WHERE " +
+                        "movieID ='" + movieID + "' AND email = '" + email
+                        + "';");
+                preparedStatement.executeUpdate();
+                return false;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connection.close();
+        }
+        return false;
+    }
+
+    @SneakyThrows
+    @Override
+    public boolean isFavouriteMovie(String email, int movieID) {
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(url, username, password);
+
+            PreparedStatement readStatement = connection.prepareStatement("SELECT * FROM dbo.favouriteMovies WHERE movieID='" +
+                    movieID + "'AND email='" + email + "';");
+
+            ResultSet resultSet = readStatement.executeQuery();
+            if (!resultSet.next()) {
+                return false;
+            }
+            else{
+                return true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connection.close();
+        }
+        return false;
+    }
+
+    @SneakyThrows
+    @Override
+    public List<Integer> getIDSFavouriteMovies(String email) {
+        Connection connection = null;
+        List<Integer> searchResult = new ArrayList<>();
+        try {
+            connection = DriverManager.getConnection(url, username, password);
+
+            PreparedStatement readStatement = connection.prepareStatement("SELECT movieID FROM dbo.favouriteMovies WHERE email='"+ email +"';");
+
+            ResultSet resultSet = readStatement.executeQuery();
+
+            while(resultSet.next()){
+                searchResult.add(resultSet.getInt("movieID"));
+            }
+
+            return searchResult;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connection.close();
+        }
+        return searchResult;
+    }
 }

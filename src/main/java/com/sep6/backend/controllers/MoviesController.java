@@ -1,5 +1,6 @@
 package com.sep6.backend.controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sep6.backend.model.Movie;
 import com.sep6.backend.model.MovieShort;
 import com.sep6.backend.model.SearchResponse;
@@ -7,6 +8,7 @@ import com.sep6.backend.services.MoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
 import java.util.List;
 
 @RestController
@@ -35,4 +37,22 @@ public class MoviesController {
         return moviesService.getShortenedMovieData();
     }
 
+    @PostMapping(value = "/favouriteMovie")
+    public boolean favouriteMovie(@RequestBody ObjectNode objectNode){
+        String email = objectNode.get("email").asText();
+        String movieID = objectNode.get("movieID").asText();
+        return moviesService.favouriteMovie(email, Integer.parseInt(movieID));
+    }
+
+    @PostMapping("/isFavouriteMovie")
+    public boolean isFavouriteMovie(@RequestBody ObjectNode objectNode){
+        String email = objectNode.get("email").asText();
+        String movieID = objectNode.get("movieID").asText();
+        return moviesService.isFavouriteMovie(email, Integer.parseInt(movieID));
+    }
+
+    @GetMapping("getFavouriteMovies")
+    public List<MovieShort> getFavouriteMovies(@RequestParam String email){
+        return moviesService.getFavouriteMovies(email);
+    }
 }
