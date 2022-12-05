@@ -31,12 +31,37 @@ public class SQLMoviesDataProvider implements MoviesDataProvider {
         try {
             connection = DriverManager.getConnection(url, username, password);
 
-            PreparedStatement readStatement = connection.prepareStatement("SELECT TOP 10 id, title FROM dbo.movies WHERE title LIKE '%" + searchFilter +"%';");
+            PreparedStatement readStatement = connection.prepareStatement("SELECT TOP 30 id, title FROM dbo.movies WHERE title LIKE '%" + searchFilter +"%';");
 
             ResultSet resultSet = readStatement.executeQuery();
 
             while(resultSet.next()){
                 searchResult.add(new SearchResponse(resultSet.getInt("id"), resultSet.getString("title")));
+            }
+
+            return searchResult;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connection.close();
+        }
+        return searchResult;
+    }
+
+    @SneakyThrows
+    @Override
+    public List<Integer> getTwentyRandomIDS() {
+        Connection connection = null;
+        List<Integer> searchResult = new ArrayList<>();
+        try {
+            connection = DriverManager.getConnection(url, username, password);
+
+            PreparedStatement readStatement = connection.prepareStatement("SELECT TOP 20 id FROM dbo.movies ORDER BY NEWID() ");
+
+            ResultSet resultSet = readStatement.executeQuery();
+
+            while(resultSet.next()){
+                searchResult.add(resultSet.getInt("id"));
             }
 
             return searchResult;

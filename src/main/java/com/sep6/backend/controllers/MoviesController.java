@@ -1,6 +1,7 @@
 package com.sep6.backend.controllers;
 
 import com.sep6.backend.model.Movie;
+import com.sep6.backend.model.MovieShort;
 import com.sep6.backend.model.SearchResponse;
 import com.sep6.backend.services.MoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,9 @@ public class MoviesController {
         return moviesService.getExtendedMovieData(id);
     }
 
+    @GetMapping("/getRandomMovies")
+    public List<MovieShort> getShortenedMovieData(){
+        return moviesService.getShortenedMovieData();
+    }
 
 }

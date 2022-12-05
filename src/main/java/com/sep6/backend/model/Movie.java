@@ -17,7 +17,7 @@ public class Movie {
     @JsonProperty(value="Title")
     private String title;
     @JsonProperty(value= "Year")
-    private Integer year;
+    private String year;
     @JsonProperty(value="Rated")
     private String rated;
     @JsonProperty(value="Released")
@@ -43,7 +43,7 @@ public class Movie {
     @JsonProperty(value="Poster")
     private String poster;
     @JsonProperty(value="imdbRating")
-    private Float rating;
+    private String rating;
     @JsonProperty(value="imdbVotes")
     private String votes;
     @JsonProperty(value="imdbID")
