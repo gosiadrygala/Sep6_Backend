@@ -1,6 +1,7 @@
 package com.sep6.backend.controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.sep6.backend.model.DataItem;
 import com.sep6.backend.model.Movie;
 import com.sep6.backend.model.MovieShort;
 import com.sep6.backend.model.SearchResponse;
@@ -54,5 +55,10 @@ public class MoviesController {
     @GetMapping("getFavouriteMovies")
     public List<MovieShort> getFavouriteMovies(@RequestParam String email){
         return moviesService.getFavouriteMovies(email);
+    }
+
+    @GetMapping("/getRatingOverYears")
+    public List<DataItem> getRatingOverYears(){
+        return moviesService.getRatingOverYears();
     }
 }

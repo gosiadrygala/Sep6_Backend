@@ -1,6 +1,7 @@
 package com.sep6.backend.dataAccess;
 
 import com.sep6.backend.dataAccess.interfaces.MoviesDataProvider;
+import com.sep6.backend.model.DataItem;
 import com.sep6.backend.model.SearchResponse;
 import lombok.SneakyThrows;
 
@@ -147,6 +148,34 @@ public class SQLMoviesDataProvider implements MoviesDataProvider {
 
             while(resultSet.next()){
                 searchResult.add(resultSet.getInt("movieID"));
+            }
+
+            return searchResult;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connection.close();
+        }
+        return searchResult;
+    }
+
+    @SneakyThrows
+    @Override
+    public List<DataItem> getRatingOverYears() {
+        Connection connection = null;
+        List<DataItem> searchResult = new ArrayList<>();
+        try {
+            connection = DriverManager.getConnection(url, username, password);
+
+            PreparedStatement readStatement = connection.prepareStatement("SELECT year, AVG(rating) as avg_rating FROM dbo.movies \n" +
+                    "INNER JOIN dbo.ratings\n" +
+                    "on dbo.movies.id = dbo.ratings.movie_id\n" +
+                    "group by year;");
+
+            ResultSet resultSet = readStatement.executeQuery();
+
+            while(resultSet.next()){
+                searchResult.add(new DataItem(resultSet.getInt("year"), resultSet.getFloat("avg_rating")));
             }
 
             return searchResult;

@@ -2,6 +2,7 @@ package com.sep6.backend.services;
 
 import com.sep6.backend.dataAccess.interfaces.ExtendedMovieDataProvider;
 import com.sep6.backend.dataAccess.interfaces.MoviesDataProvider;
+import com.sep6.backend.model.DataItem;
 import com.sep6.backend.model.Movie;
 import com.sep6.backend.model.MovieShort;
 import com.sep6.backend.model.SearchResponse;
@@ -59,5 +60,9 @@ public class MoviesService {
             movies.add(shortenedMovieData);
         }
         return movies;
+    }
+
+    public List<DataItem> getRatingOverYears() {
+        return moviesDataProvider.getRatingOverYears();
     }
 }
