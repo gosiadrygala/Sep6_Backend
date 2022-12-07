@@ -33,6 +33,9 @@ public class OMDBMovieDataProvider implements ExtendedMovieDataProvider {
         try {
             deserialized = MovieDeserializer.deserialize(result);
             deserialized.setId(initialId);
+            if(deserialized.getPoster() == null || deserialized.getPoster().equals("N/A")) {
+                deserialized.setPoster("https://motivatevalmorgan.com/wp-content/uploads/2016/06/default-movie.jpg");
+            }
         } catch (JsonProcessingException e) {
             log.debug(e.getMessage());
         }
@@ -57,7 +60,13 @@ public class OMDBMovieDataProvider implements ExtendedMovieDataProvider {
             deserialized = MovieDeserializer.deserialize(result);
             movie.setId(initialId);
             movie.setTitle(deserialized.getTitle());
-            movie.setPoster(deserialized.getPoster());
+            if(deserialized.getPoster() == null || deserialized.getPoster().equals("N/A")) {
+                movie.setPoster("https://motivatevalmorgan.com/wp-content/uploads/2016/06/default-movie.jpg");
+            }
+            else{
+                movie.setPoster(deserialized.getPoster());
+            }
+
         } catch (JsonProcessingException e) {
             log.error(e.getMessage());
         }
