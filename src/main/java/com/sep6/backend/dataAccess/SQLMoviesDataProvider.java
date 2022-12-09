@@ -1,10 +1,12 @@
 package com.sep6.backend.dataAccess;
 
 import com.sep6.backend.dataAccess.interfaces.MoviesDataProvider;
+import com.sep6.backend.exception.RetrieveDataException;
 import com.sep6.backend.model.DataItem;
 import com.sep6.backend.model.Person;
 import com.sep6.backend.model.SearchResponse;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,6 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class SQLMoviesDataProvider implements MoviesDataProvider {
 
     private final String url;
@@ -43,11 +46,11 @@ public class SQLMoviesDataProvider implements MoviesDataProvider {
 
             return searchResult;
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RetrieveDataException("Could not retrieve search items.");
         } finally {
             connection.close();
         }
-        return searchResult;
     }
 
     @SneakyThrows
@@ -68,11 +71,11 @@ public class SQLMoviesDataProvider implements MoviesDataProvider {
 
             return searchResult;
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RetrieveDataException("Could not retrieve random movie data.");
         } finally {
             connection.close();
         }
-        return searchResult;
     }
 
     @SneakyThrows
@@ -102,11 +105,11 @@ public class SQLMoviesDataProvider implements MoviesDataProvider {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RetrieveDataException("Could not add movie to favourite.");
         } finally {
             connection.close();
         }
-        return false;
     }
 
     @SneakyThrows
@@ -128,11 +131,11 @@ public class SQLMoviesDataProvider implements MoviesDataProvider {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RetrieveDataException("Could not retrieve if the movie is in favourite.");
         } finally {
             connection.close();
         }
-        return false;
     }
 
     @SneakyThrows
@@ -153,11 +156,11 @@ public class SQLMoviesDataProvider implements MoviesDataProvider {
 
             return searchResult;
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RetrieveDataException("Could not retrieve favourite movies.");
         } finally {
             connection.close();
         }
-        return searchResult;
     }
 
     @SneakyThrows
@@ -181,11 +184,11 @@ public class SQLMoviesDataProvider implements MoviesDataProvider {
 
             return searchResult;
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RetrieveDataException("Could not retrieve rating over the years.");
         } finally {
             connection.close();
         }
-        return searchResult;
     }
 
     @SneakyThrows
@@ -209,11 +212,11 @@ public class SQLMoviesDataProvider implements MoviesDataProvider {
 
             return searchResult;
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RetrieveDataException("Could not retrieve best rated directors.");
         } finally {
             connection.close();
         }
-        return searchResult;
     }
 
     @SneakyThrows
@@ -237,11 +240,11 @@ public class SQLMoviesDataProvider implements MoviesDataProvider {
 
             return searchResult;
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RetrieveDataException("Could not retrieve best rated actors.");
         } finally {
             connection.close();
         }
-        return searchResult;
     }
 
 }

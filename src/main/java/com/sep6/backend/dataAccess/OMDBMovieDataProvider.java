@@ -2,6 +2,7 @@ package com.sep6.backend.dataAccess;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sep6.backend.dataAccess.interfaces.ExtendedMovieDataProvider;
+import com.sep6.backend.exception.RetrieveDataException;
 import com.sep6.backend.model.Movie;
 import com.sep6.backend.model.MovieShort;
 import com.sep6.backend.utils.MovieDeserializer;
@@ -37,7 +38,8 @@ public class OMDBMovieDataProvider implements ExtendedMovieDataProvider {
                 deserialized.setPoster("https://motivatevalmorgan.com/wp-content/uploads/2016/06/default-movie.jpg");
             }
         } catch (JsonProcessingException e) {
-            log.debug(e.getMessage());
+            log.error(e.getMessage());
+            throw new RetrieveDataException("Could not retrieve extended movie data.");
         }
         return deserialized;
     }
@@ -69,6 +71,7 @@ public class OMDBMovieDataProvider implements ExtendedMovieDataProvider {
 
         } catch (JsonProcessingException e) {
             log.error(e.getMessage());
+            throw new RetrieveDataException("Could not retrieve shortened movie data.");
         }
         return movie;
     }
