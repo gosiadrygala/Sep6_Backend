@@ -26,7 +26,8 @@ public class ApplicationConfig {
 
     @Bean
     public UserDataProvider getUserDataProvider(){
-        return new SQLUserDataProvider(databaseUrl, databaseUser, databasePassword);
+        String url = databaseUrl+ ";database=" + databaseName;
+        return new SQLUserDataProvider(url, databaseUser, databasePassword);
     }
 
     @Bean
