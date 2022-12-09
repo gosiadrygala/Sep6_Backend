@@ -1,6 +1,7 @@
 package com.sep6.backend.dataAccess.interfaces;
 
 import com.sep6.backend.model.DataItem;
+import com.sep6.backend.model.Person;
 import com.sep6.backend.model.SearchResponse;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface MoviesDataProvider {
     List<Integer> getIDSFavouriteMovies(String email);
 
     List<DataItem> getRatingOverYears();
+    List<Person> getBestRatedDirectors();
+    List<Person> getBestRatedActors();
+
 }

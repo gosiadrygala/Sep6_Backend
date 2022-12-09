@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sep6.backend.model.DataItem;
 import com.sep6.backend.model.Movie;
 import com.sep6.backend.model.MovieShort;
+import com.sep6.backend.model.Person;
 import com.sep6.backend.model.SearchResponse;
 import com.sep6.backend.services.MoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +61,15 @@ public class MoviesController {
     @GetMapping("/getRatingOverYears")
     public List<DataItem> getRatingOverYears(){
         return moviesService.getRatingOverYears();
+    }
+
+    @GetMapping("/getBestRatedDirectors")
+    public List<Person> getBestRatedDirectors(){
+        return moviesService.getBestRatedDirectors();
+    }
+
+    @GetMapping("/getBestRatedActors")
+    public List<Person> getBestRatedActors(){
+        return moviesService.getBestRatedActors();
     }
 }

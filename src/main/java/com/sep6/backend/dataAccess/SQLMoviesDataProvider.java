@@ -2,6 +2,7 @@ package com.sep6.backend.dataAccess;
 
 import com.sep6.backend.dataAccess.interfaces.MoviesDataProvider;
 import com.sep6.backend.model.DataItem;
+import com.sep6.backend.model.Person;
 import com.sep6.backend.model.SearchResponse;
 import lombok.SneakyThrows;
 
@@ -186,4 +187,61 @@ public class SQLMoviesDataProvider implements MoviesDataProvider {
         }
         return searchResult;
     }
+
+    @SneakyThrows
+    @Override
+    public List<Person> getBestRatedDirectors() {
+        Connection connection = null;
+        List<Person> searchResult = new ArrayList<>();
+        try {
+            connection = DriverManager.getConnection(url, username, password);
+
+            PreparedStatement readStatement = connection.prepareStatement("SELECT name, rating, sum_votes FROM dbo.people INNER JOIN (SELECT TOP 5 person_id, AVG(rating) as rating, SUM(votes) as sum_votes\n" +
+                    "FROM dbo.ratings INNER JOIN dbo.directors \n" +
+                    "on dbo.directors.movie_id = dbo.ratings.movie_id group by person_id order by rating desc) temp ON \n" +
+                    "dbo.people.id = temp.person_id");
+
+            ResultSet resultSet = readStatement.executeQuery();
+
+            while(resultSet.next()){
+                searchResult.add(new Person(resultSet.getString("name"), resultSet.getFloat("rating"), resultSet.getInt("sum_votes")));
+            }
+
+            return searchResult;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connection.close();
+        }
+        return searchResult;
+    }
+
+    @SneakyThrows
+    @Override
+    public List<Person> getBestRatedActors() {
+        Connection connection = null;
+        List<Person> searchResult = new ArrayList<>();
+        try {
+            connection = DriverManager.getConnection(url, username, password);
+
+            PreparedStatement readStatement = connection.prepareStatement("SELECT name, rating, sum_votes FROM dbo.people INNER JOIN (SELECT TOP 5 person_id, AVG(rating) as rating, SUM(votes) as sum_votes  \n" +
+                    "FROM dbo.ratings INNER JOIN dbo.stars \n" +
+                    "on dbo.stars.movie_id = dbo.ratings.movie_id group by person_id order by rating desc) temp ON \n" +
+                    "dbo.people.id = temp.person_id");
+
+            ResultSet resultSet = readStatement.executeQuery();
+
+            while(resultSet.next()){
+                searchResult.add(new Person(resultSet.getString("name"), resultSet.getFloat("rating"), resultSet.getInt("sum_votes")));
+            }
+
+            return searchResult;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connection.close();
+        }
+        return searchResult;
+    }
+
 }

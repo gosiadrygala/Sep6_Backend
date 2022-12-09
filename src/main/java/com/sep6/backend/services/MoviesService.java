@@ -5,6 +5,7 @@ import com.sep6.backend.dataAccess.interfaces.MoviesDataProvider;
 import com.sep6.backend.model.DataItem;
 import com.sep6.backend.model.Movie;
 import com.sep6.backend.model.MovieShort;
+import com.sep6.backend.model.Person;
 import com.sep6.backend.model.SearchResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,5 +65,13 @@ public class MoviesService {
 
     public List<DataItem> getRatingOverYears() {
         return moviesDataProvider.getRatingOverYears();
+    }
+
+    public List<Person> getBestRatedDirectors() {
+        return moviesDataProvider.getBestRatedDirectors();
+    }
+
+    public List<Person> getBestRatedActors() {
+        return moviesDataProvider.getBestRatedActors();
     }
 }
