@@ -1,6 +1,6 @@
 package com.sep6.backend.services;
 
-import com.sep6.backend.dataAccess.UserDataProvider;
+import com.sep6.backend.dataAccess.interfaces.UserDataProvider;
 import com.sep6.backend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

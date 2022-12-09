@@ -1,7 +1,10 @@
 package com.sep6.backend.dataAccess;
 
+import com.sep6.backend.dataAccess.interfaces.UserDataProvider;
+import com.sep6.backend.exception.RetrieveDataException;
 import com.sep6.backend.model.User;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,13 +12,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDataProvider {
+@Slf4j
+public class SQLUserDataProvider implements UserDataProvider {
 
     private final String url;
     private final String username;
     private final String password;
 
-    public UserDataProvider(String url, String username, String password) {
+    public SQLUserDataProvider(String url, String username, String password) {
         this.url = url;
         this.username = username;
         this.password = password;
@@ -42,11 +46,11 @@ public class UserDataProvider {
 
             return builder.build();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RetrieveDataException("Could not perform login.");
         } finally {
             connection.close();
         }
-        return new User();
     }
 
     @SneakyThrows
@@ -78,7 +82,8 @@ public class UserDataProvider {
                 return "Email already exists";
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RetrieveDataException("Could not perform register.");
         } finally {
             connection.close();
         }

@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: Java CI with Maven, build docker
 
 on:
   push:
@@ -29,6 +29,6 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
       - run: |
-          docker build -t ${{secrets.ACR_LOGIN_SERVER}}/sep6backend:0.1.0 \
-          --label backendversion=0.1.0 .
-          docker push ${{secrets.ACR_LOGIN_SERVER}}/sep6backend:0.1.0
+          docker build -t ${{secrets.ACR_LOGIN_SERVER}}/sep6backend:latest \
+          --label backendversion=latest .
+          docker push ${{secrets.ACR_LOGIN_SERVER}}/sep6backend:latest
