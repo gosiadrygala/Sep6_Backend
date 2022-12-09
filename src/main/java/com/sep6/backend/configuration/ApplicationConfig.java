@@ -15,6 +15,8 @@ public class ApplicationConfig {
 
     @Value("${database.url}")
     private String databaseUrl;
+    @Value("${database.name}")
+    private String databaseName;
     @Value("${database.user}")
     private String databaseUser;
     @Value("${database.password}")
@@ -29,7 +31,8 @@ public class ApplicationConfig {
 
     @Bean
     public MoviesDataProvider getMoviesDataProvider(){
-        return new SQLMoviesDataProvider(databaseUrl, databaseUser, databasePassword);
+        String url = databaseUrl+ ";database=" + databaseName;
+        return new SQLMoviesDataProvider(url, databaseUser, databasePassword);
     }
 
     @Bean
